@@ -34,13 +34,24 @@ const clock = () => {
 setInterval(clock, 1000);
 
 
+//main - todolist
+
+const toDoList = [] = [...document.querySelectorAll("li")];
+
 //remove element from list
 const removeTask = (e) => {
   const deleteTask = () => {
     e.target.parentNode.remove();
+    const index = e.target.parentNode.dataset.key;
+    toDoList.splice(index, 1);
+    ul.textContent = "";
+    toDoList.forEach((element, i) => {
+    element.dataset.key = i;
+    ul.appendChild(element)
+  })
   }
   e.target.parentNode.childNodes[0].style.textDecoration = "line-through";
-  setTimeout(deleteTask, 500)
+  setTimeout(deleteTask, 500);
 }
 // function removeTask() {
 //   const deleteTask = () => {
@@ -53,14 +64,13 @@ document.querySelectorAll("li i").forEach(listItem => listItem.addEventListener(
 
 
 //filter
-
 const input = document.querySelector("input.filter");
-const listItems = document.querySelectorAll("li");
 const ul = document.querySelector("ul");
 
 const searchTask = (e) => {
+  e.preventDefault();
   const textFragment = e.target.value.toLowerCase();
-  let tasks = [...listItems];
+  let tasks = toDoList;
   tasks = tasks.filter(item => item.textContent.toLowerCase().includes(textFragment));
   ul.textContent = "";
   tasks.forEach(item => ul.appendChild(item));
@@ -68,8 +78,8 @@ const searchTask = (e) => {
 
 input.addEventListener("input", searchTask)
 
-//Add to list
 
+//Add to list
 const form = document.querySelector("form");
 const inputAdd = document.querySelector("input.addTask");
 
@@ -78,7 +88,13 @@ const addTask = (e) => {
   const taskDescription = inputAdd.value;
   if(!taskDescription) return alert("Add description!")
   const newLi = document.createElement("li");
-  newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`
+  newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`;
+  toDoList.push(newLi);
+  ul.textContent = "";
+  toDoList.forEach((element, i) => {
+    element.dataset.key = i;
+    ul.appendChild(element)
+  })
   ul.appendChild(newLi);
   inputAdd.value = "";
   newLi.addEventListener("click", removeTask);
