@@ -35,20 +35,15 @@ setInterval(clock, 1000);
 
 
 //main - todolist
-
 const toDoList = [] = [...document.querySelectorAll("li")];
+
 
 //remove element from list
 const removeTask = (e) => {
   const deleteTask = () => {
-    e.target.parentNode.remove();
     const index = e.target.parentNode.dataset.key;
     toDoList.splice(index, 1);
-    ul.textContent = "";
-    toDoList.forEach((element, i) => {
-    element.dataset.key = i;
-    ul.appendChild(element)
-  })
+    renderList();
   }
   e.target.parentNode.childNodes[0].style.textDecoration = "line-through";
   setTimeout(deleteTask, 500);
@@ -64,7 +59,7 @@ document.querySelectorAll("li i").forEach(listItem => listItem.addEventListener(
 
 
 //filter
-const input = document.querySelector("input.filter");
+const inputFilter = document.querySelector("input.filter");
 const ul = document.querySelector("ul");
 
 const searchTask = (e) => {
@@ -76,7 +71,7 @@ const searchTask = (e) => {
   tasks.forEach(item => ul.appendChild(item));
 }
 
-input.addEventListener("input", searchTask)
+inputFilter.addEventListener("input", searchTask)
 
 
 //Add to list
@@ -90,14 +85,21 @@ const addTask = (e) => {
   const newLi = document.createElement("li");
   newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`;
   toDoList.push(newLi);
-  ul.textContent = "";
-  toDoList.forEach((element, i) => {
-    element.dataset.key = i;
-    ul.appendChild(element)
-  })
+  renderList();
   ul.appendChild(newLi);
   inputAdd.value = "";
   newLi.addEventListener("click", removeTask);
 }
 
-form.addEventListener("submit", addTask)
+form.addEventListener("submit", addTask);
+
+
+//displaying list
+const renderList = () => {
+  inputFilter.value = "";
+  ul.textContent = "";
+  toDoList.forEach((element, i) => {
+    element.dataset.key = i;
+    ul.appendChild(element)
+  })
+}
