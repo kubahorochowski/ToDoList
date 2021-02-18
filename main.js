@@ -84,29 +84,16 @@ const addTask = (e) => {
   if(!taskDescription) return alert("Add description!");
   const newLi = document.createElement("li");
   newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`;
-  console.log(taskDescription);
-  
-  if(!checkExists(taskDescription)){
+  if(!toDoList.some(x => x.innerText.toLocaleLowerCase() == taskDescription.toLocaleLowerCase())){
     toDoList.push(newLi);
     renderList();
     inputAdd.value = "";
     newLi.addEventListener("click", removeTask);
   }
+  else alert("This item already exists!")
 }
 
 form.addEventListener("submit", addTask);
-
-function checkExists(taskDesc) {
-  console.log(taskDesc);
-  
-  toDoList.forEach(element => {
-    if(taskDesc == element.innerText ) {
-      alert("This item already exists!");
-      return true;
-    }
-    else return false;
-  });
-}
 
 //displaying list
 const renderList = () => {
