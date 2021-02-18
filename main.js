@@ -86,7 +86,7 @@ const addTask = (e) => {
   newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`;
   toDoList.push(newLi);
   renderList();
-  ul.appendChild(newLi);
+  // ul.appendChild(newLi);
   inputAdd.value = "";
   newLi.addEventListener("click", removeTask);
 }
