@@ -81,18 +81,32 @@ const inputAdd = document.querySelector("input.addTask");
 const addTask = (e) => {
   e.preventDefault();
   const taskDescription = inputAdd.value;
-  if(!taskDescription) return alert("Add description!")
+  if(!taskDescription) return alert("Add description!");
   const newLi = document.createElement("li");
   newLi.innerHTML = `<p>${taskDescription}</p><i class="fas fa-times"></i>`;
-  toDoList.push(newLi);
-  renderList();
-  // ul.appendChild(newLi);
-  inputAdd.value = "";
-  newLi.addEventListener("click", removeTask);
+  console.log(taskDescription);
+  
+  if(!checkExists(taskDescription)){
+    toDoList.push(newLi);
+    renderList();
+    inputAdd.value = "";
+    newLi.addEventListener("click", removeTask);
+  }
 }
 
 form.addEventListener("submit", addTask);
 
+function checkExists(taskDesc) {
+  console.log(taskDesc);
+  
+  toDoList.forEach(element => {
+    if(taskDesc == element.innerText ) {
+      alert("This item already exists!");
+      return true;
+    }
+    else return false;
+  });
+}
 
 //displaying list
 const renderList = () => {
